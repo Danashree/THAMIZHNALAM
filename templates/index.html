@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>THAMIZHNALAM Chatbot</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: url('{{ url_for('static', filename='bkg.png') }}') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+    }
+
+    .header-content {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .header-content h1 {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+
+    .header-content h3 {
+      font-size: 1.1rem;
+      color: #4CAF50;
+      margin-bottom: 10px;
+    }
+
+    .header-content p {
+      font-size: 0.95rem;
+      max-width: 800px;
+      line-height: 1.5;
+    }
+
+    .chat-container {
+      flex: 1;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 900px;
+      background: url('{{ url_for('static', filename='siddha.jpeg') }}') no-repeat center center;
+      background-size: cover;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      backdrop-filter: blur(1px);
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .bot-message,
+    .user-message {
+      padding: 10px 15px;
+      margin: 5px 0;
+      border-radius: 10px;
+      max-width: 75%;
+      font-size: 0.95rem;
+      word-wrap: break-word;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .bot-message {
+      background-color: #f1f1f1;
+      align-self: flex-start;
+    }
+
+    .user-message {
+      background-color: #4CAF50;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .input-area button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      font-size: 1rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .input-area button:hover {
+      background-color: #45a049;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .logo {
+        width: 80px;
+      }
+
+      .header-content h1 {
+        font-size: 1.5rem;
+      }
+
+      .header-content h3 {
+        font-size: 1rem;
+      }
+
+      .header-content p {
+        font-size: 0.85rem;
+      }
+
+      .chat-box {
+        padding: 10px;
+      }
+
+      .bot-message,
+      .user-message {
+        font-size: 0.9rem;
+        max-width: 90%;
+      }
+
+      .input-area input,
+      .input-area button {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <img src="{{ url_for('static', filename='wpat.png') }}" alt="THAMIZHNALAM Logo" class="logo">
+    </div>
+    <div class="header-content">
+      <h1>THAMIZHNALAM</h1>
+      <h3>🌿 AYURVEDA | SIDDHA | HOME REMEDIES 🌿</h3>
+      <p>
+        Thamizhnalam is an AI-based health diagnosis chatbot that assists individuals in determining their health issues and offers appropriate cures based on Siddha, Ayurveda, and home remedies.
+        Our chatbot will diagnose symptoms, offer natural remedies using easily accessible home ingredients, and suggest easy exercises for instant relief.
+      </p>
+    </div>
+  </header>      
+
+  <main class="chat-container">
+    <div class="chat-box" id="chat-box">
+      <div class="bot-message">
+        <img src="{{ url_for('static', filename='container.png') }}" alt="Bot" class="avatar">
+        <span>🌿Feel free to convey...</span>
+      </div>
+    </div>
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Type a message..." />
+      <button id="mic-btn">🎤</button>
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </main>
+
+  <script>
+    function displayMessage(text, className) {
+      const chatBox = document.getElementById("chat-box");
+      const messageDiv = document.createElement("div");
+      messageDiv.className = className;
+      messageDiv.innerText = text;
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function botResponse(userInput) {
+      try {
+        const res = await fetch("/get", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ msg: userInput })
+        });
+
+        const data = await res.json();
+        displayMessage(data.reply, "bot-message");
+      } catch (error) {
+        console.error("Error:", error);
+        displayMessage("Sorry, I'm having trouble right now. Please try again later.", "bot-message");
+      }
+    }
+
+    function sendMessage(input = null) {
+      const inputField = document.getElementById("user-input");
+      const userInput = input || inputField.value.trim();
+      if (userInput === "") return;
+      displayMessage(userInput, "user-message");
+      botResponse(userInput);
+      inputField.value = "";
+    }
+
+    document.getElementById("user-input").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") sendMessage();
+    });
+
+    const micButton = document.getElementById("mic-btn");
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Your browser does not support speech recognition. Please use Chrome or Edge.");
+    } else {
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+
+      micButton.addEventListener("click", () => {
+        recognition.start();
+        micButton.innerHTML = "🎙️";
+      });
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("user-input").value = transcript;
+        sendMessage(transcript);
+      };
+
+      recognition.onend = () => {
+        micButton.innerHTML = "🎤";
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+      };
+    }
+  </script>
+</body>
+</html>
