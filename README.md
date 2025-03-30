@@ -1,6 +1,5 @@
 # Ayurveda & Siddha Chatbot
 
-This is a web-based chatbot application designed to provide natural health support using the ancient practices of **Ayurveda**, **Siddha medicine**, **home remedies**, and **Tamil traditional wellness**. The system strictly avoids recommendations related to hospitals or modern allopathic medicine, focusing only on holistic healing.
 
 ## 🎯 Problem Statement
 
@@ -19,7 +18,6 @@ We developed an intelligent chatbot that delivers trusted natural health tips �
   - Lifestyle and yoga guidance
   - Tamil traditional wellness practices
 - Lightweight and responsive design
-- Can run offline or on low-resource devices
 
 ## 🛠️ Tech Stack
 
@@ -83,20 +81,17 @@ Chat/
    http://127.0.0.1:5000
    ```
 
-##Team Member :-              
-Danashree S
-Sai Shambhavi yadav G
-Shagitha begam K
-Dharshini R
+**Team Members:**
+- Danashree S
+- Sai Shambhavi Yadav G
+- Shagitha Begam K
+- Dharshini R
 
 ## 📽️ Video Demo
 
 Watch the full project demo here: [Click to view](https://drive.google.com/file/d/1GZSmdo_7FfWfAJDWCa_-TuQH_rrUMKgd/view?usp=sharing)
 
 
-## 📜 License
-
-This project is open-source and available under the [MIT License](LICENSE).
 
 ## 🤝 Contributing
 
