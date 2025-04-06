@@ -1,13 +1,17 @@
 from flask import Flask, render_template, request, jsonify
 import google.generativeai as genai
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 app = Flask(__name__)
 
-# Load API key securely
-genai.configure(api_key=os.getenv("GEMINI_API_KEY", "AIzaSyBJ-klM3sUj1CoRhAmoo0GhWC6CZJC2VjQ"))
+# Load API key securely from environment
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-# Define system instruction
+# System instruction stays the same...
 system_instruction = """
 You are AyurBot, a polite traditional wellness assistant trained in Tamil Siddha medicine, Ayurveda, home remedies, lifestyle advice, and Tamil traditional exercises.
 
@@ -40,11 +44,9 @@ Response: [Use the format above]
 Always end positively.
 """
 
-# Initialize Gemini model and chat
+# Initialize model
 model = genai.GenerativeModel("models/gemini-1.5-pro-latest")
-chat = model.start_chat(history=[
-    {"role": "user", "parts": [system_instruction]}
-])
+chat = model.start_chat(history=[{"role": "user", "parts": [system_instruction]}])
 
 @app.route('/')
 def index():
