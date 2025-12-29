@@ -85,7 +85,7 @@ Chat/
 - Danashree S
 - Sai Shambhavi Yadav G
 - Shagitha Begam K
-- Dharshini R
+- Dharshini B
 
 ## 📽️ Video Demo
 
